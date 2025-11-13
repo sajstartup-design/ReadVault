@@ -23,7 +23,7 @@ public class MangaService {
 
         ApiFuture<WriteResult> future =
                 db().collection("mmm")
-                    .document(data.getTitle())   // Document ID = title
+                    .document(data.getTitle())   
                     .set(data);
 
         future.get(); // wait

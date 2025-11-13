@@ -24,162 +24,164 @@
       </header>
       <main>
          <div class="grid">
-            <div class="card-container">
+            <div class="card-container" th:each="m : ${mmm}">
                <div class="card">
-                  <img src="https://preview.redd.it/whats-your-favorite-manga-cover-v0-2um6jhxkq3vc1.jpeg?width=1170&auto=webp&s=333236ede8774b1f62b30976c4d8f6ea465443b3" alt="Manga 1">
+                  <img th:src="${m.image}" alt="Manga 1">
                </div>
                <div class="circle">
-                  <p class="manga-title" title="Manga Title 1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">
-                     Manga Title 1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                  <p class="manga-title" th:title="${m.title}" th:text="${m.title}">
+                    
                   </p>
                   <div class="stars">
-				      ★★★★☆ <!-- Example: 4 out of 5 stars -->
-				   </div>
+                     ★★★★☆ <!-- Example: 4 out of 5 stars -->
+                  </div>
                </div>
             </div>
          </div>
       </main>
       <!-- Modal Overlay -->
-<div id="addModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Add New Manga</h2>
-    <div class="modal-body">
-      <!-- LEFT SIDE: Inputs -->
-      <div class="modal-left">
-        <label for="title">Title:</label>
-        <input type="text" id="title" placeholder="Enter manga title">
-		
-		<label for="title">Genre:</label>
-        <div class="tags-input-container">
-        
-  <!-- TAG LIST -->
-  <div class="tag-list" id="tagList"></div>
-
-  <!-- INPUT -->
-  <input type="text" id="tags-input" placeholder="Type genres and press comma..." />
-</div>
-
-        <label for="image">Image URL:</label>
-        <input type="text" id="image" placeholder="Enter image URL">
-
-        <label for="stars">Rating (1-5):</label>
-        <input type="number" id="stars" min="1" max="5" value="1">
-
-        <button type="submit" class="add-btn" id="submitManga">Add Manga</button>
-      </div>
-
-      <!-- RIGHT SIDE: Preview -->
-      <div class="modal-right">
-        <div class="card-container" id="previewCard">
-          <div class="card">
-            <img id="previewImage" th:src="@{default-img.png}" alt="Manga Preview">
-          </div>
-          <div class="circle">
-            <p class="manga-title" id="previewTitle" title="Manga Title 1">
-              Title
-            </p>
-            <div class="stars" id="previewStars">
-              ★☆☆☆☆
+      <div id="addModal" class="modal">
+         <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Manga</h2>
+            <div class="modal-body">
+               <!-- LEFT SIDE: Inputs -->
+               <form th:action="@{/add}" method="POST" class="modal-left" th:object="${mMMData}">
+                  <label for="title">Title:</label>
+                  <input type="text" id="title" placeholder="Enter manga title" name="title">
+                  <label for="title">Genre:</label>
+                  <div class="tags-input-container">
+                     <!-- TAG LIST -->
+                     <input type="hidden" name="genre" />
+                     <div class="tag-list" id="tagList"></div>
+                     <!-- INPUT -->
+                     <input type="text" id="tags-input" placeholder="Type genres and press comma..." />
+                  </div>
+                  <label for="image">Image URL:</label>
+                  <input type="text" id="image" placeholder="Enter image URL" name="image">
+                  <label for="stars">Rating (1-5):</label>
+                  <input type="number" id="stars" min="1" max="5" value="1" name="rating">
+                  <button type="submit" class="add-btn" >Add Manga</button>
+               </form>
+               <!-- RIGHT SIDE: Preview -->
+               <div class="modal-right">
+                  <div class="card-container" id="previewCard">
+                     <div class="card">
+                        <img id="previewImage" th:src="@{default-img.png}" alt="Manga Preview">
+                     </div>
+                     <div class="circle">
+                        <p class="manga-title" id="previewTitle" title="Manga Title 1">
+                           Title
+                        </p>
+                        <div class="stars" id="previewStars">
+                           ★☆☆☆☆
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-  </div>
-</div>
-      
    </body>
+   <script th:inline="javascript">
+   	console.log(/*[[${mmm}]]*/'');
+   </script>
    <script>
-  const modal = document.getElementById("addModal");
-  const btn = document.querySelector(".add-btn"); // + Add New
-  const closeBtn = document.querySelector(".close");
+      const modal = document.getElementById("addModal");
+      const btn = document.querySelector(".add-btn"); // + Add New
+      const closeBtn = document.querySelector(".close");
+      
+      const titleInput = document.getElementById("title");
+      const imageInput = document.getElementById("image");
+      const starsInput = document.getElementById("stars");
+      
+      const previewTitle = document.getElementById("previewTitle");
+      const previewImage = document.getElementById("previewImage");
+      const previewStars = document.getElementById("previewStars");
+      
+      const submitBtn = document.getElementById("submitManga");
+      
+      // Open modal
+      btn.addEventListener("click", () => {
+        modal.style.display = "flex";
+      });
+      
+      // Close modal
+      closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+      });
+      
+      // Close modal on outside click
+      window.addEventListener("click", (e) => {
+        if (e.target === modal) modal.style.display = "none";
+      });
+      
+      // Live Preview Update
+      titleInput.addEventListener("input", () => {
+        previewTitle.textContent = titleInput.value || "Manga Title 1";
+        previewTitle.setAttribute("title", titleInput.value || "Manga Title 1");
+      });
+      
+      imageInput.addEventListener("input", () => {
+        previewImage.src = imageInput.value || "https://preview.redd.it/whats-your-favorite-manga-cover-v0-2um6jhxkq3vc1.jpeg?width=1170&auto=webp&s=333236ede8774b1f62b30976c4d8f6ea465443b3";
+      });
+      
+      starsInput.addEventListener("input", () => {
+        const value = Math.min(Math.max(starsInput.value, 1), 5); // Clamp 1-5
+        previewStars.textContent = "★".repeat(value) + "☆".repeat(5 - value);
+      });
+      
+      // Submit button (optional: add to main grid)
+/*       submitBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        alert("Manga added to library! (You can add dynamic JS for real addition)");
+      }); */
+      
+      const input = document.getElementById("tags-input");
+      const tagList = document.getElementById("tagList");
+      const hiddenGenreInput = document.querySelector('input[name="genre"]'); // hidden input
+      let tags = [];
 
-  const titleInput = document.getElementById("title");
-  const imageInput = document.getElementById("image");
-  const starsInput = document.getElementById("stars");
+      function updateHiddenInput() {
+        hiddenGenreInput.value = tags.join(","); // comma-separated
+      }
 
-  const previewTitle = document.getElementById("previewTitle");
-  const previewImage = document.getElementById("previewImage");
-  const previewStars = document.getElementById("previewStars");
+      function createTag(label) {
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.textContent = label;
 
-  const submitBtn = document.getElementById("submitManga");
+        const removeBtn = document.createElement("span");
+        removeBtn.className = "remove-tag";
+        removeBtn.textContent = "×";
+        removeBtn.addEventListener("click", () => {
+          tags = tags.filter(tag => tag !== label);
+          span.remove();
+          updateHiddenInput(); // update hidden input on removal
+        });
 
-  // Open modal
-  btn.addEventListener("click", () => {
-    modal.style.display = "flex";
-  });
+        span.appendChild(removeBtn);
+        return span;
+      }
 
-  // Close modal
-  closeBtn.addEventListener("click", () => {
-    modal.style.display = "none";
-  });
+      function addTag(label) {
+        if (label && !tags.includes(label)) {
+          tags.push(label);
+          const tagElement = createTag(label);
+          tagList.appendChild(tagElement);
+          updateHiddenInput(); // update hidden input on addition
+        }
+      }
 
-  // Close modal on outside click
-  window.addEventListener("click", (e) => {
-    if (e.target === modal) modal.style.display = "none";
-  });
-
-  // Live Preview Update
-  titleInput.addEventListener("input", () => {
-    previewTitle.textContent = titleInput.value || "Manga Title 1";
-    previewTitle.setAttribute("title", titleInput.value || "Manga Title 1");
-  });
-
-  imageInput.addEventListener("input", () => {
-    previewImage.src = imageInput.value || "https://preview.redd.it/whats-your-favorite-manga-cover-v0-2um6jhxkq3vc1.jpeg?width=1170&auto=webp&s=333236ede8774b1f62b30976c4d8f6ea465443b3";
-  });
-
-  starsInput.addEventListener("input", () => {
-    const value = Math.min(Math.max(starsInput.value, 1), 5); // Clamp 1-5
-    previewStars.textContent = "★".repeat(value) + "☆".repeat(5 - value);
-  });
-
-  // Submit button (optional: add to main grid)
-  submitBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    alert("Manga added to library! (You can add dynamic JS for real addition)");
-  });
-  
-  const input = document.getElementById("tags-input");
-  const tagList = document.getElementById("tagList");
-  let tags = [];
-
-  function createTag(label) {
-    const span = document.createElement("span");
-    span.className = "tag";
-    span.textContent = label;
-
-    const removeBtn = document.createElement("span");
-    removeBtn.className = "remove-tag";
-    removeBtn.textContent = "×";
-    removeBtn.addEventListener("click", () => {
-      tags = tags.filter(tag => tag !== label);
-      span.remove();
-    });
-
-    span.appendChild(removeBtn);
-    return span;
-  }
-
-  function addTag(label) {
-    if (label && !tags.includes(label)) {
-      tags.push(label);
-      const tagElement = createTag(label);
-      tagList.appendChild(tagElement);
-    }
-  }
-
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === ",") {
-      e.preventDefault();
-      const tag = input.value.trim();
-      addTag(tag);
-      input.value = "";
-    }
-  });
-
-
-</script>
-   
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === ",") {
+          e.preventDefault();
+          const tag = input.value.trim();
+          addTag(tag);
+          input.value = "";
+        }
+      });
+      
+      
+   </script>
 </html>
