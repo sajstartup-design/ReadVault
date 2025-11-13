@@ -1,35 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Manga Cover Grid</title>
-  <link rel="stylesheet" href="home.css																															">
-</head>
-<body>
-
-  <h1 class="title">Manga Library</h1>
-
-  <div class="grid">
-    <div class="card">
-      <img src="cover1.jpg" alt="Manga 1">
-      <p class="manga-title">Manga Title 1</p>
-    </div>
-
-    <div class="card">
-      <img src="cover2.jpg" alt="Manga 2">
-      <p class="manga-title">Manga Title 2</p>
-    </div>
-
-    <div class="card">
-      <img src="cover3.jpg" alt="Manga 3">
-      <p class="manga-title">Manga Title 3</p>
-    </div>
-
-    <div class="card">
-      <img src="cover4.jpg" alt="Manga 4">
-      <p class="manga-title">Manga Title 4</p>
-    </div>
-  </div>
-
-</body>
+   <head>
+      <meta charset="UTF-8">
+      <title>Manga Library</title>
+      <link rel="stylesheet" href="home.css">
+   </head>
+   <body>
+      <header class="navbar">
+         <div class="logo">Read Vault</div>
+         <div class="navbar-controls">
+            <input type="text" class="search" placeholder="Search..." />
+            <select class="filter">
+               <option value="">All Genres</option>
+               <option value="action">Action</option>
+               <option value="romance">Romance</option>
+               <option value="fantasy">Fantasy</option>
+               <option value="comedy">Comedy</option>
+               <option value="horror">Horror</option>
+            </select>
+            <button class="add-btn">+ Add New</button>
+            <button class="add-btn">Showcase</button>
+         </div>
+      </header>
+      <main>
+         <div class="grid">
+            <div class="card-container">
+               <div class="card">
+                  <img src="https://preview.redd.it/whats-your-favorite-manga-cover-v0-2um6jhxkq3vc1.jpeg?width=1170&auto=webp&s=333236ede8774b1f62b30976c4d8f6ea465443b3" alt="Manga 1">
+               </div>
+               <div class="circle">
+                  <p class="manga-title" title="Manga Title 1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">
+                     Manga Title 1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                  </p>
+                  <div class="stars">
+      ★★★★☆ <!-- Example: 4 out of 5 stars -->
+   </div>
+               </div>
+            </div>
+         </div>
+      </main>
+   </body>
 </html>

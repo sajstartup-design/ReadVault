@@ -1,44 +1,183 @@
 body {
   margin: 0;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
+  font-family: 'Arial', sans-serif;
+  background-color: #fff7f5;
 }
 
-.title {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 28px;
+/* Navbar */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 40px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
+.navbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search {
+  width: 220px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.search:focus {
+  border-color: #ff9999;
+  box-shadow: 0 0 5px rgba(255, 153, 153, 0.5);
+}
+
+.filter {
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #333;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.filter:hover {
+  border-color: #ff9999;
+}
+
+.add-btn {
+  background-color: #ff9999;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+}
+
+.add-btn:hover {
+  background-color: #ff7a7a;
+  transform: scale(1.05);
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 20px;
+  color: #ff6b6b;
+}
+
+
+/* Grid Layout */
 .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 20px;
-  padding: 0 40px;
+  display: flex;
+  flex-wrap: wrap; /* allows wrapping to next line */
+  justify-content: space-between; /* centers items horizontally */
+  gap: 25px;
+  padding: 40px;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: auto;
 }
 
 .card {
   background: white;
   border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  transition: 0.2s;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  width: 150px;
+  height: 220px;
+  z-index: 2;
+  text-align: center;
+  overflow: hidden; /* ensures image stays inside rounded corners */
+  padding: 0; /* removes inner padding */
 }
 
-.card:hover {
-  transform: translateY(-5px);
-}
-
+/* Make image fill the card properly */
 .card img {
   width: 100%;
-  height: 220px;
-  object-fit: cover;
+  height: 100%;
+  object-fit: cover; /* ensures full coverage without distortion */
+  border-radius: 10px;
+  display: block;
 }
 
-.manga-title {
-  padding: 10px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: bold;
+/* Keep the circle size exactly the same */
+.circle {
+  width: 250px;
+  height: 120px;
+  background: #ff8585;
+  border-radius: 50%;
+  margin-top: -60px;
+  z-index: 1;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  
+  /* Add these to center the title inside */
+  display: flex;
+  flex-direction: column;
+  align-items: anchor-center;
+  justify-content: center;
+  padding-bottom: 10px;
 }
+
+/* Move the title into the circle visually */
+.manga-title {
+  position: relative;
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin: 0;
+  z-index: 3;
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  cursor: default;
+  margin-top: 60px;	
+}
+
+/* Tooltip styling */
+.manga-title::after {
+  content: attr(data-fulltitle);
+  position: absolute;
+  top: 130%; /* ⬅️ show BELOW the title */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+  z-index: 10;
+}
+
+/* Show tooltip on hover */
+.manga-title:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(3px); /* smooth slight rise */
+}
+
+.stars {
+  margin-top: 5px;
+  color: gold;        /* Star color */
+  font-size: 1.2rem;    /* Adjust size */
+  text-align: center;
+  white-space: nowrap;
+}
+
